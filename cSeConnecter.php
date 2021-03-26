@@ -14,9 +14,12 @@
       // acquisition des données envoyées, ici login et mot de passe
       $login = lireDonneePost("txtLogin");
       $mdp = lireDonneePost("txtMdp"); 
- 	$idConnexion=connecterServeurBD();
+	    $idConnexion=connecterServeurBD();
       $lgUser = verifierInfosConnexion($idConnexion, $login, $mdp) ;
       // si l'id utilisateur a été trouvé, donc informations fournies sous forme de tableau
+
+      
+
       if ( is_array($lgUser) ) { 
           affecterInfosConnecte($lgUser["id"], $lgUser["login"]);
       }
@@ -24,16 +27,21 @@
           ajouterErreur($tabErreurs, "Pseudo et/ou mot de passe incorrects");
       }
   }
+
   if ( $etape == "validerConnexion" && nbErreurs($tabErreurs) == 0 ) {
-        header("Location:cAccueil.php");
+
+      include("permission.php");
+
+       
   }
+ 
 
   require($repInclude . "_entete.inc.html");
   require($repInclude . "_sommaire.inc.php");
   
 ?>
 <!-- Division pour le contenu principal -->
-    <div id="contenu">
+<div id="contenu">
       <h2>Identification utilisateur</h2>
 <?php
           if ( $etape == "validerConnexion" ) 
